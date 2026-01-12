@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+/* ============================================
+   FlashScreen - Global Styles
+   ============================================ */
+
+/* CSS Variables - Dark Theme Only */
+:root {
+  /* Background Colors */
+  --bg-primary: #0a0a0b;
+  --bg-secondary: #141416;
+  --bg-tertiary: #1c1c1f;
+  --bg-elevated: #252528;
+  --bg-overlay: rgba(0, 0, 0, 0.8);
+
+  /* Text Colors */
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+  --text-inverse: #0a0a0b;
+
+  /* Accent Colors */
+  --accent-red: #ff4d4d;
+  --accent-red-hover: #ff6b6b;
+  --accent-red-glow: rgba(255, 77, 77, 0.4);
+  --accent-blue: #3b82f6;
+  --accent-blue-hover: #60a5fa;
+  --accent-blue-glow: rgba(59, 130, 246, 0.4);
+  --accent-green: #22c55e;
+  --accent-yellow: #fbbf24;
+
+  /* Border Colors */
+  --border-default: #27272a;
+  --border-hover: #3f3f46;
+  --border-focus: #3b82f6;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.6);
+
+  /* Transitions */
+  --duration-fast: 100ms;
+  --duration-normal: 200ms;
+  --duration-slow: 350ms;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Font */
+  --font-sans: "SF Pro Display", "Inter", -apple-system, BlinkMacSystemFont,
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", "Fira Code", monospace;
+}
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Disable text selection for UI elements */
+button,
+[role="button"] {
+  user-select: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* Focus Styles */
+:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
+/* Tauri Window Drag Region */
+[data-tauri-drag-region] {
+  -webkit-app-region: drag;
+}
+
+[data-tauri-drag-region] button,
+[data-tauri-drag-region] a,
+[data-tauri-drag-region] input {
+  -webkit-app-region: no-drag;
+}
+
+/* Animations */
+@keyframes pulse-recording {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--accent-red-glow);
+  }
+  50% {
+    box-shadow: 0 0 0 12px transparent;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-pulse-recording {
+  animation: pulse-recording 1.5s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in var(--duration-normal) var(--ease-default);
+}
+
+.animate-slide-up {
+  animation: slide-up var(--duration-slow) var(--ease-default);
+}
+
+.animate-slide-down {
+  animation: slide-down var(--duration-slow) var(--ease-default);
+}
+
+/* Utility Classes */
+.glass {
+  background: rgba(20, 20, 22, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glow-red {
+  box-shadow: 0 0 20px var(--accent-red-glow);
+}
+
+.glow-blue {
+  box-shadow: 0 0 20px var(--accent-blue-glow);
+}
+
