@@ -1,2 +1,1 @@
-export { FilesPanel } from "./FilesPanel";
-
+export { FilesView } from "./FilesView";

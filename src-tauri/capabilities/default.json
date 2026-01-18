@@ -5,6 +5,31 @@
   "windows": ["main"],
   "permissions": [
     "core:default",
-    "opener:default"
+    "core:window:default",
+    "core:window:allow-start-dragging",
+    "core:window:allow-minimize",
+    "core:window:allow-maximize",
+    "core:window:allow-toggle-maximize",
+    "core:window:allow-close",
+    "core:window:allow-set-size",
+    "core:window:allow-set-position",
+    "opener:default",
+    "dialog:default",
+    "fs:default",
+    "notification:default",
+    "shell:default",
+    "shell:allow-spawn",
+    "shell:allow-execute",
+    {
+      "identifier": "shell:allow-sidecar",
+      "allow": [
+        {
+          "name": "ffmpeg",
+          "sidecar": true,
+          "args": true
+        }
+      ]
+    },
+    "global-shortcut:default"
   ]
 }

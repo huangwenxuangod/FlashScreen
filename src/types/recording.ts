@@ -1,7 +1,3 @@
-// Recording Types
-
-export type RecordingMode = "fullscreen" | "window" | "region";
-
 export type RecordingStatus =
   | "idle"
   | "selecting"
@@ -10,6 +6,8 @@ export type RecordingStatus =
   | "paused"
   | "encoding"
   | "preview";
+
+export type RecordingMode = "fullscreen" | "window" | "region";
 
 export interface Region {
   x: number;
@@ -33,39 +31,3 @@ export interface RecordingState {
   sources: RecordingSources;
   outputPath: string | null;
 }
-
-export interface Monitor {
-  id: string;
-  name: string;
-  width: number;
-  height: number;
-  isPrimary: boolean;
-}
-
-export interface WindowInfo {
-  id: string;
-  title: string;
-  processName: string;
-  bounds: Region;
-  icon?: string;
-}
-
-export interface CameraInfo {
-  id: string;
-  name: string;
-}
-
-export interface AudioDevice {
-  id: string;
-  name: string;
-  type: "input" | "output";
-  isDefault: boolean;
-}
-
-// Camera PiP
-export interface CameraPipState {
-  visible: boolean;
-  position: { x: number; y: number };
-  size: number;
-}
-

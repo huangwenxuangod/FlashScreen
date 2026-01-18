@@ -1,2 +1,1 @@
-export { SettingsPanel } from "./SettingsPanel";
-
+export { SettingsView } from "./SettingsView";

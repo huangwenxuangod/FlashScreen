@@ -1,5 +1,4 @@
+export { AppLayout } from "./AppLayout";
 export { TitleBar } from "./TitleBar";
-export { BottomBar } from "./BottomBar";
-export { MainLayout } from "./MainLayout";
-export { PanelHeader } from "./PanelHeader";
-
+export { PreviewArea } from "./PreviewArea";
+export { ControlBar } from "./ControlBar";

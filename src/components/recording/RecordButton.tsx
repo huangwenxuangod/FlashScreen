@@ -1,84 +1,146 @@
-import { motion } from "framer-motion";
-import { Circle, Square } from "lucide-react";
+import { Button, Tooltip, Chip } from "@heroui/react";
+import { Circle, Square, Pause, Play, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { cn } from "@/utils";
 import { useRecordingStore } from "@/stores";
-import { Tooltip } from "@/components/ui";
 
 export function RecordButton() {
   const { t } = useTranslation();
-  const { status } = useRecordingStore();
+  const { status, mode, sources } = useRecordingStore();
 
-  const isRecording = status === "recording" || status === "paused";
   const isIdle = status === "idle";
+  const isRecording = status === "recording";
+  const isPaused = status === "paused";
+  const isEncoding = status === "encoding";
 
-  const handleClick = () => {
-    // TODO: Implement recording logic via Tauri commands
-    console.log("Record button clicked, current status:", status);
+  const handleStartRecording = async () => {
+    console.log("Starting recording", { mode, sources });
+    useRecordingStore.getState().setStatus("recording");
+  };
+
+  const handleStopRecording = async () => {
+    console.log("Stopping recording");
+    useRecordingStore.getState().setStatus("idle");
+  };
+
+  const handlePauseResume = async () => {
+    if (isRecording) {
+      useRecordingStore.getState().setStatus("paused");
+    } else if (isPaused) {
+      useRecordingStore.getState().setStatus("recording");
+    }
+  };
+
+  const handleCancel = async () => {
+    useRecordingStore.getState().setStatus("idle");
   };
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex items-center gap-4">
+      {/* Main Record/Stop Button */}
       <Tooltip
         content={
-          isRecording
-            ? `${t("recording.stop")} (F1)`
-            : `${t("recording.start")} (F1)`
+          <div className="flex items-center gap-2">
+            <span>{isIdle ? t("recording.start") : t("recording.stop")}</span>
+            <Chip size="sm" variant="flat" className="h-5 text-[10px]">F1</Chip>
+          </div>
         }
-        side="bottom"
       >
-        <motion.button
-          className={cn(
-            "relative w-16 h-16 rounded-full flex items-center justify-center",
-            "transition-colors duration-200",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-primary)]",
-            isRecording
-              ? "bg-[var(--accent-red)]"
-              : "bg-[var(--bg-tertiary)] hover:bg-[var(--bg-elevated)] border border-[var(--border-default)] hover:border-[var(--border-hover)]"
-          )}
-          onClick={handleClick}
+        <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          {/* Recording pulse animation */}
-          {isRecording && (
-            <motion.div
-              className="absolute inset-0 rounded-full bg-[var(--accent-red)]"
-              animate={{
-                boxShadow: [
-                  "0 0 0 0 rgba(255, 77, 77, 0.4)",
-                  "0 0 0 12px rgba(255, 77, 77, 0)",
-                ],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeOut",
-              }}
-            />
-          )}
-
-          {/* Icon */}
-          {isRecording ? (
-            <Square className="w-6 h-6 text-white fill-white relative z-10" />
-          ) : (
-            <Circle className="w-6 h-6 text-[var(--accent-red)] fill-[var(--accent-red)] relative z-10" />
-          )}
-        </motion.button>
+          <Button
+            isIconOnly
+            size="lg"
+            color={isIdle ? "danger" : "default"}
+            variant={isIdle ? "solid" : "bordered"}
+            className={`w-20 h-20 rounded-full ${
+              isIdle
+                ? "bg-danger shadow-lg shadow-danger/30"
+                : "border-2 border-danger bg-zinc-900"
+            }`}
+            isDisabled={isEncoding}
+            onPress={isIdle ? handleStartRecording : handleStopRecording}
+          >
+            {isIdle ? (
+              <Circle className="w-8 h-8 fill-white text-white" />
+            ) : (
+              <Square className="w-6 h-6 fill-danger text-danger" />
+            )}
+          </Button>
+        </motion.div>
       </Tooltip>
 
-      {/* Status text */}
-      <div className="text-center">
-        <p className="text-sm text-[var(--text-secondary)]">
-          {isIdle && t("recording.start")}
-          {status === "recording" && t("recording.recording")}
-          {status === "paused" && t("recording.paused")}
-          {status === "encoding" && t("recording.encoding")}
-        </p>
-        <p className="text-xs text-[var(--text-tertiary)] mt-1">F1</p>
-      </div>
+      {/* Secondary Controls */}
+      <AnimatePresence>
+        {(isRecording || isPaused) && (
+          <motion.div
+            className="flex items-center gap-2"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.2 }}
+          >
+            {/* Pause/Resume */}
+            <Tooltip
+              content={
+                <div className="flex items-center gap-2">
+                  <span>{isPaused ? t("recording.resume") : t("recording.pause")}</span>
+                  <Chip size="sm" variant="flat" className="h-5 text-[10px]">F2</Chip>
+                </div>
+              }
+            >
+              <Button
+                isIconOnly
+                size="lg"
+                variant="bordered"
+                color={isPaused ? "warning" : "default"}
+                className={`w-14 h-14 rounded-full ${
+                  isPaused
+                    ? "border-warning bg-warning/10"
+                    : "border-zinc-700 bg-zinc-900"
+                }`}
+                onPress={handlePauseResume}
+              >
+                {isPaused ? (
+                  <Play className="w-5 h-5 text-warning" />
+                ) : (
+                  <Pause className="w-5 h-5 text-zinc-400" />
+                )}
+              </Button>
+            </Tooltip>
+
+            {/* Cancel */}
+            <Tooltip
+              content={
+                <div className="flex items-center gap-2">
+                  <span>{t("recording.cancel")}</span>
+                  <Chip size="sm" variant="flat" className="h-5 text-[10px]">F3</Chip>
+                </div>
+              }
+            >
+              <Button
+                isIconOnly
+                size="lg"
+                variant="bordered"
+                className="w-14 h-14 rounded-full border-zinc-700 bg-zinc-900 hover:bg-danger/10 hover:border-danger"
+                onPress={handleCancel}
+              >
+                <X className="w-5 h-5 text-zinc-400" />
+              </Button>
+            </Tooltip>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Encoding Indicator */}
+      {isEncoding && (
+        <div className="flex items-center gap-2 text-zinc-400">
+          <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+          <span className="text-sm">{t("recording.encoding")}</span>
+        </div>
+      )}
     </div>
   );
 }
-

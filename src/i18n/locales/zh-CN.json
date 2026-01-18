@@ -2,6 +2,33 @@
   "app": {
     "name": "FlashScreen"
   },
+  "sidebar": {
+    "mode": "录制模式",
+    "sources": "音视频源",
+    "files": "录制文件",
+    "settings": "设置",
+    "help": "帮助"
+  },
+  "mode": {
+    "fullscreen": "全屏录制",
+    "fullscreenDesc": "录制整个屏幕",
+    "window": "窗口录制",
+    "windowDesc": "录制指定窗口",
+    "region": "区域录制",
+    "regionDesc": "自定义录制区域"
+  },
+  "source": {
+    "microphone": "麦克风",
+    "systemAudio": "系统音频",
+    "camera": "摄像头"
+  },
+  "preview": {
+    "title": "预览",
+    "fullscreen": "全屏",
+    "reset": "重置",
+    "ready": "准备就绪",
+    "hint": "将录制 {{mode}}"
+  },
   "recording": {
     "start": "开始录制",
     "stop": "停止录制",
@@ -10,34 +37,54 @@
     "cancel": "取消",
     "recording": "录制中",
     "paused": "已暂停",
-    "encoding": "正在导出...",
-    "complete": "导出完成"
+    "encoding": "编码中..."
   },
-  "mode": {
-    "fullscreen": "全屏",
-    "window": "窗口",
-    "region": "区域"
+  "status": {
+    "ready": "准备就绪",
+    "recording": "录制中",
+    "paused": "已暂停"
   },
-  "source": {
-    "microphone": "麦克风",
-    "systemAudio": "系统声音",
-    "camera": "摄像头"
+  "hint": {
+    "startStop": "开始/停止",
+    "pauseResume": "暂停/继续",
+    "cancel": "取消",
+    "toRecord": "开始录制"
+  },
+  "properties": {
+    "title": "属性",
+    "mode": "录制模式",
+    "output": "输出设置",
+    "resolution": "分辨率",
+    "frameRate": "帧率",
+    "format": "格式",
+    "activeSources": "已启用源",
+    "noSources": "无活动源",
+    "quickSettings": "快捷设置",
+    "quality": "质量",
+    "performance": "性能",
+    "balanced": "均衡",
+    "tip": "提示: 使用 F1 快捷键可以快速开始/停止录制"
   },
   "settings": {
     "title": "设置",
     "output": {
-      "title": "输出设置",
+      "title": "输出",
       "directory": "保存位置",
       "resolution": "分辨率",
-      "frameRate": "帧率",
-      "selectFolder": "选择文件夹"
+      "frameRate": "帧率"
     },
     "hotkeys": {
       "title": "快捷键",
-      "startStop": "开始/停止录制",
-      "pauseResume": "暂停/继续录制",
-      "cancel": "取消录制",
+      "startStop": "开始/停止",
+      "pauseResume": "暂停/继续",
+      "cancel": "取消",
       "toggleCamera": "切换摄像头"
+    },
+    "recording": {
+      "title": "录制",
+      "countdown": "显示倒计时",
+      "cursorSmoothing": "光标平滑",
+      "highlightClicks": "点击高亮"
     },
     "general": {
       "title": "通用",
@@ -47,51 +94,15 @@
     },
     "about": {
       "title": "关于",
-      "version": "版本",
-      "checkUpdate": "检查更新",
-      "upToDate": "已是最新版本"
+      "version": "版本"
     }
   },
   "files": {
     "title": "录制文件",
     "search": "搜索...",
     "empty": "暂无录制文件",
-    "today": "今天",
-    "yesterday": "昨天",
-    "earlier": "更早",
-    "actions": {
-      "showInFolder": "在文件夹中显示",
-      "rename": "重命名",
-      "copyPath": "复制路径",
-      "delete": "删除"
-    },
-    "deleteConfirm": {
-      "title": "确认删除",
-      "message": "确定要删除这个录制文件吗？此操作不可撤销。",
-      "confirm": "删除",
-      "cancel": "取消"
-    }
-  },
-  "preview": {
-    "title": "预览",
-    "openFile": "打开文件",
-    "showInFolder": "在文件夹中显示",
-    "newRecording": "新建录制"
-  },
-  "firstLaunch": {
-    "title": "欢迎使用 FlashScreen",
-    "subtitle": "请选择录制文件的保存位置",
-    "selectFolder": "选择文件夹",
-    "continue": "开始使用"
-  },
-  "errors": {
-    "recordingFailed": "录制失败",
-    "encodingFailed": "导出失败",
-    "noPermission": "没有录制权限",
-    "diskFull": "磁盘空间不足"
-  },
-  "hotkey": {
-    "press": "按 {key}"
+    "openFolder": "打开文件夹",
+    "delete": "删除",
+    "rename": "重命名"
   }
 }
-

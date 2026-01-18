@@ -1,69 +1,79 @@
 /**
- * Format duration in seconds to MM:SS or HH:MM:SS
+ * Format duration in seconds to HH:MM:SS or MM:SS
  */
 export function formatDuration(seconds: number): string {
-  const hrs = Math.floor(seconds / 3600);
-  const mins = Math.floor((seconds % 3600) / 60);
-  const secs = Math.floor(seconds % 60);
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
 
-  if (hrs > 0) {
-    return `${hrs.toString().padStart(2, "0")}:${mins
-      .toString()
-      .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  if (h > 0) {
+    return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   }
-
-  return `${mins.toString().padStart(2, "0")}:${secs
-    .toString()
-    .padStart(2, "0")}`;
+  return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
 }
 
 /**
- * Format file size in bytes to human readable format
+ * Format file size to human-readable string
  */
 export function formatFileSize(bytes: number): string {
   if (bytes === 0) return "0 B";
 
+  const units = ["B", "KB", "MB", "GB", "TB"];
   const k = 1024;
-  const sizes = ["B", "KB", "MB", "GB", "TB"];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${units[i]}`;
 }
 
 /**
- * Format date to relative string (Today, Yesterday, or date)
+ * Format date to localized string
+ */
+export function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+/**
+ * Format date to relative time (e.g., "2 hours ago", "Yesterday")
  */
 export function formatRelativeDate(dateString: string): string {
   const date = new Date(dateString);
-  const today = new Date();
-  const yesterday = new Date(today);
-  yesterday.setDate(yesterday.getDate() - 1);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHour = Math.floor(diffMin / 60);
+  const diffDay = Math.floor(diffHour / 24);
 
-  if (isSameDay(date, today)) {
-    return "today";
-  } else if (isSameDay(date, yesterday)) {
-    return "yesterday";
+  if (diffSec < 60) {
+    return "刚刚";
+  } else if (diffMin < 60) {
+    return `${diffMin} 分钟前`;
+  } else if (diffHour < 24) {
+    return `${diffHour} 小时前`;
+  } else if (diffDay === 1) {
+    return "昨天";
+  } else if (diffDay < 7) {
+    return `${diffDay} 天前`;
   } else {
-    return date.toLocaleDateString();
+    return formatDate(dateString);
   }
 }
 
-function isSameDay(d1: Date, d2: Date): boolean {
-  return (
-    d1.getFullYear() === d2.getFullYear() &&
-    d1.getMonth() === d2.getMonth() &&
-    d1.getDate() === d2.getDate()
-  );
-}
-
 /**
- * Generate recording filename
+ * Generate a filename for recording based on timestamp
  */
-export function generateRecordingFilename(): string {
+export function generateRecordingFilename(prefix: string = "recording"): string {
   const now = new Date();
-  const date = now.toISOString().split("T")[0]; // YYYY-MM-DD
-  const time = now.toTimeString().split(" ")[0].replace(/:/g, "-"); // HH-MM-SS
-
-  return `FlashScreen_${date}_${time}.mp4`;
+  const timestamp = now.toISOString()
+    .replace(/[-:]/g, "")
+    .replace("T", "_")
+    .replace(/\.\d{3}Z$/, "");
+  return `${prefix}_${timestamp}`;
 }
-

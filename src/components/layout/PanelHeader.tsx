@@ -9,36 +9,31 @@ interface PanelHeaderProps {
   rightElement?: React.ReactNode;
 }
 
-export function PanelHeader({
-  title,
-  showBack = true,
-  rightElement,
-}: PanelHeaderProps) {
-  const { goBack } = useUIStore();
+export function PanelHeader({ title, showBack = true, rightElement }: PanelHeaderProps) {
+  const { setPanel } = useUIStore();
 
   return (
-    <div className="h-12 flex items-center justify-between px-4 border-b border-[var(--border-default)]">
+    <div className="flex items-center justify-between h-14 px-4 border-b border-[var(--border-subtle)] shrink-0">
       <div className="flex items-center gap-3">
         {showBack && (
           <motion.button
-            className={cn(
-              "w-8 h-8 flex items-center justify-center rounded-[var(--radius-sm)]",
-              "text-[var(--text-secondary)] hover:text-[var(--text-primary)]",
-              "hover:bg-[var(--bg-tertiary)] transition-colors"
-            )}
-            onClick={goBack}
+            className="w-8 h-8 flex items-center justify-center rounded-[var(--radius-md)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)] transition-colors"
+            onClick={() => setPanel("main")}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <ArrowLeft className="w-4 h-4" />
           </motion.button>
         )}
-        <h2 className="text-sm font-medium text-[var(--text-primary)]">
+        <h2 className="text-[var(--text-lg)] font-semibold text-[var(--text-primary)]">
           {title}
         </h2>
       </div>
-      {rightElement}
+      {rightElement && (
+        <div className="flex items-center gap-2">
+          {rightElement}
+        </div>
+      )}
     </div>
   );
 }
-

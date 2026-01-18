@@ -1,5 +1,3 @@
-// File Types
-
 export interface RecordingFile {
   path: string;
   name: string;
@@ -10,10 +8,3 @@ export interface RecordingFile {
   createdAt: string;
   thumbnail?: string;
 }
-
-export interface FileGroup {
-  label: string;
-  date: string;
-  files: RecordingFile[];
-}
-

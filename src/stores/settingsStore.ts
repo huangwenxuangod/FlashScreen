@@ -1,7 +1,42 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Settings } from "@/types";
-import { defaultSettings } from "@/types";
+
+const defaultSettings: Settings = {
+  output: {
+    directory: "",
+    resolution: "1080p",
+    frameRate: 60,
+    format: "mp4",
+  },
+  hotkeys: {
+    startStop: "F1",
+    pauseResume: "F2",
+    cancel: "F3",
+    toggleCamera: "F4",
+  },
+  recording: {
+    showCountdown: false,
+    countdownDuration: 3,
+    cursorSmoothing: true,
+    highlightClicks: false,
+    playStartSound: true,
+    playEndSound: true,
+  },
+  camera: {
+    deviceId: null,
+    position: "bottom-right",
+    size: 150,
+    shape: "circle",
+  },
+  general: {
+    language: "zh-CN",
+    launchAtStartup: false,
+    minimizeToTray: true,
+    showPreviewAfterRecording: true,
+  },
+  isFirstLaunch: true,
+};
 
 interface SettingsStore {
   settings: Settings;
@@ -64,4 +99,3 @@ export const useSettingsStore = create<SettingsStore>()(
     }
   )
 );
-

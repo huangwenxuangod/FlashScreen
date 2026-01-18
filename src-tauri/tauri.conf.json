@@ -13,11 +13,11 @@
     "windows": [
       {
         "title": "FlashScreen",
-        "width": 480,
-        "height": 520,
-        "minWidth": 480,
-        "minHeight": 520,
-        "resizable": false,
+        "width": 1200,
+        "height": 800,
+        "minWidth": 900,
+        "minHeight": 600,
+        "resizable": true,
         "center": true,
         "decorations": false,
         "transparent": false,
@@ -43,6 +43,9 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
+    "externalBin": [
+      "binaries/ffmpeg"
+    ],
     "resources": [],
     "windows": {
       "certificateThumbprint": null,
@@ -52,7 +55,8 @@
   },
   "plugins": {
     "shell": {
-      "open": true
+      "open": true,
+      "sidecar": true
     }
   }
 }
